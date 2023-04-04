@@ -48,10 +48,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\BlogPosts\" />
-    <Folder Include="Areas\Admin\Views\Subscribes\" />
     <Folder Include="Models\" />
     <Folder Include="Models\" />
-    <Folder Include="wwwroot\uploads\images\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,9 +62,8 @@
     <None Include="Areas\Admin\Views\Products\Edit.cshtml" />
     <None Include="Areas\Admin\Views\Products\Index.cshtml" />
     <None Include="Areas\Admin\Views\Products\_ListBody.cshtml" />
-    <None Include="Views\Shop\Details.cshtml" />
     <None Include="Views\Shop\Index.cshtml" />
-    <None Include="Views\Shop\ProductPage.cshtml" />
+    <None Include="Views\Shop\Details.cshtml" />
     <None Include="wwwroot\libs\multiple-imager-js\js\imager.js" />
   </ItemGroup>
 

@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -15,6 +16,9 @@ namespace Marani.Domain.Business.BrandModule
     public class BrandEditCommand : IRequest<Brand>
     {
         public int Id { get; set; }
+
+        [Required]
+
         public string Name { get; set; }
 
         public class BrandEditCommandHandler : IRequestHandler<BrandEditCommand, Brand>

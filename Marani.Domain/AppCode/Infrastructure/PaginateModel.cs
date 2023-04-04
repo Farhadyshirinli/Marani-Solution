@@ -29,7 +29,7 @@ namespace Marani.Domain.AppCode.Infrastructure
         {
             get
             {
-                return this.pageSize < 6 ? 6 : this.pageSize;
+                return this.pageSize < 10 ? 10 : this.pageSize;
 
             }
             set

@@ -28,7 +28,7 @@ namespace Marani.WebUI
 
         public Startup(IConfiguration configuration)
         {
-            this.configuration = configuration;   // json file larini oxuya bilmek uchun
+            this.configuration = configuration; 
         }
 
 
@@ -72,12 +72,12 @@ namespace Marani.WebUI
             services.AddScoped<SignInManager<MaraniUser>>();
 
             services.Configure<IdentityOptions>(cfg => {
-                cfg.User.RequireUniqueEmail = true; //herkesin bir emaili olsun
+                cfg.User.RequireUniqueEmail = true; 
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequireUppercase = false;
                 cfg.Password.RequireLowercase = false;
                 cfg.Password.RequireNonAlphanumeric = false;
-                cfg.Password.RequiredUniqueChars = 1; //123
+                cfg.Password.RequiredUniqueChars = 1; 
                 cfg.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 1, 0);
                 cfg.Lockout.MaxFailedAccessAttempts = 3;
                 cfg.Password.RequiredLength = 3;
@@ -123,7 +123,7 @@ namespace Marani.WebUI
                 cfg.LowercaseUrls = true;
             });
 
-            services.AddRouting(cfg =>    // url lerin kichik herfle gorunmesi uchun
+            services.AddRouting(cfg =>    
             {
                 cfg.LowercaseUrls = true;
             });

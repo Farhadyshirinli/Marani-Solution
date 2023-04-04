@@ -23,6 +23,9 @@ namespace Marani.Domain.Business.ProductModule
             public async Task<PagedViewModel<Product>> Handle(ProductsPagedQuery request, CancellationToken cancellationToken)
             {
                 var query = db.Products
+                    .Where(p=>p.DeletedDate == null)
+                    .Include(p=>p.ProductCatalog)
+                    .ThenInclude(p=>p.ProductColor)
                     .Include(p => p.ProductImages.Where(i => i.DeletedDate == null))
                     .Include(p=>p.Brand)
                     .Include(p=>p.Category)

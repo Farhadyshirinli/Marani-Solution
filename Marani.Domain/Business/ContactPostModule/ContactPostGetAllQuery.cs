@@ -1,17 +1,15 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Marani.Domain.Models.DataContexts;
+﻿using Marani.Domain.Models.DataContexts;
 using Marani.Domain.Models.Entities;
-using System;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Marani.Domain.Business.ContactPostModule
 {
-    
+
     public class ContactPostGetAllQuery : IRequest<List<ContactPost>>
     {
         public class ContactPostGetAllQueryHandler : IRequestHandler<ContactPostGetAllQuery, List<ContactPost>>

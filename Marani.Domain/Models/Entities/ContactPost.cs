@@ -18,6 +18,7 @@ namespace Marani.Domain.Models.Entities
         [Required]
         public string Message { get; set; }
         public string Answer { get; set; }
+        public string EmailAnswer { get; set; }
         public int? AnsweredByUserId { get; set; }
         public DateTime? AnswerDate { get; set; }
 

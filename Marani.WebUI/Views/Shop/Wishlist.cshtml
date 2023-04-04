@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Wishlist";
+}
+
+
+<partial name="_MainMenu" />
+<!-- Page Add Section Begin -->
+<section class="page-add cart-page-add">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="page-breadcrumb">
+                    <h2>Wishlist</h2>
+                    <a asp-controller="home" asp-action="index">Home</a>
+                    <a asp-controller="Shop" asp-action="Basket">Basket</a>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <img src="img/add.jpg" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page Add Section End -->
+<!-- Cart Page Section Begin -->
+<div class="cart-page">
+    <div class="container">
+        <div class="cart-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="product-h">Product</th>
+                       @* <th>Price</th>
+                        <th class="quan">Quantity</th>
+                        <th>Total</th>*@
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="dynamic-content">
+                    <partial name="_WishlistBody" model="Model" />
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Cart Page Section End -->
+<!-- Footer Section Begin -->
+<partial name="_FooterWidget" />
+<!-- Footer Section End -->
+@section addcss{
+    <style>
+        .card-body {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+            .card-body .basket-btn {
+                width: 300px;
+            }
+    </style>
+}
+
+
+    @section addjs{
+    <script>
+        function removeFromFav(productId, e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '',
+                type: 'post',
+                beforeSend: function (xhr) {
+                    const favorites = ($.cookie('favorites') || '').split(',').filter(item => item.length > 0);
+                    const refreshFavorites = favorites.filter(item => item != productId);
+                    $.cookie('favorites', refreshFavorites.toString(), { path: '/', expires: 7 });
+                },
+                success: function (response) {
+                    $('#dynamic-content').html(response);
+
+                },
+                error: function (response) {
+                }
+            });
+        }
+
+
+    </script>
+}
+

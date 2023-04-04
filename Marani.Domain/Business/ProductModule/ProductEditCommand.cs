@@ -38,12 +38,6 @@ namespace Marani.Domain.Business.ProductModule
         public int CategoryId { get; set; }
         [Required]
 
-        //public int ColorId { get; set; }
-        //[Required]
-
-        //public int MaterialId { get; set; }
-        //[Required]
-
         public ImageItem[] Images { get; set; }
 
 
@@ -76,17 +70,7 @@ namespace Marani.Domain.Business.ProductModule
                     p.DeletedDate == null, cancellationToken);
 
 
-                    //if (request.ColorId != data.ColorId || request.MaterialId != data.MaterialId)
-                    //{
-                    //    db.ProductCatalog.Remove(data);
-                    //    await db.SaveChangesAsync();
-
-                    //    var Item = new ProductCatalogItem();
-                    //    Item.ProductId = request.Id;
-                    //    Item.ColorId = request.ColorId;
-                    //    Item.MaterialId = request.MaterialId;
-                    //    await db.ProductCatalog.AddAsync(Item);
-                    //}
+                 
                     if (model == null)
                     {
                         return null;
@@ -99,12 +83,6 @@ namespace Marani.Domain.Business.ProductModule
                     model.Description = request.Description;
                     model.BrandId = request.BrandId;
                     model.CategoryId = request.CategoryId;
-
-                    /*
-                    1. sekil deyisdirmek istemirse
-                    2. elave sekil artirsa + 
-                    3 var olan sekli silibse
-                     */
 
                     if (request.Images != null && request.Images.Count() > 0)
                     {

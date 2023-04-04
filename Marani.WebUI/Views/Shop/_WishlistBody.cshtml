@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Product>
+
+@foreach (var item in Model)
+{
+    string imagePath = item.ProductImages.FirstOrDefault(i => i.IsMain == true)?.Name;
+    <tr>
+        <td class="product-col">
+            <img src="~/uploads/images/@imagePath" alt="">
+            <div class="p-title">
+                <a asp-action="details"
+               asp-controller="shop"
+               asp-route-id="@item.Id">
+                    @item.Name
+                </a>
+            </div>
+        </td>
+       
+        <td class="product-close">
+            <a onclick="removeFromFav(@item.Id,event)">
+                <img style="height:30px; cursor:pointer;" src="~/assets/img/icons/delete-button-black.png" alt="">
+
+            </a>
+        </td>
+    </tr>
+}

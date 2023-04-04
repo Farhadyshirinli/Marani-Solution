@@ -41,10 +41,9 @@ namespace Marani.Domain.Business.ProductModule
 
         public int CategoryId { get; set; }
 
-        //public int[] ItemIds { get; set; }
         [Required]
 
-        public int ColorId { get; set; }
+        public int TasteId { get; set; }
         [Required]
 
         public int RegionId { get; set; }
@@ -105,7 +104,7 @@ namespace Marani.Domain.Business.ProductModule
                    
 
                     var itemIn = new ProductCatalogItem();
-                    itemIn.ProductColorId = request.ColorId;
+                    itemIn.ProductColorId = request.TasteId;
                     itemIn.ProductRegionId = request.RegionId;
 
                     model.ProductCatalog.Add(itemIn);

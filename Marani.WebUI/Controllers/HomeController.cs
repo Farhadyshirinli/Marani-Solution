@@ -19,7 +19,7 @@ namespace Marani.WebUI.Controllers
         private readonly CryptoService cryptoService;
         private readonly EmailService emailService;
 
-        public HomeController(MaraniDbContext db,CryptoService cryptoService,EmailService emailService)
+        public HomeController(MaraniDbContext db, CryptoService cryptoService, EmailService emailService)
         {
             this.db = db;
             this.cryptoService = cryptoService;
@@ -27,6 +27,11 @@ namespace Marani.WebUI.Controllers
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult About()
         {
             return View();
         }
@@ -40,10 +45,15 @@ namespace Marani.WebUI.Controllers
 
         public IActionResult Contact()
         {
-            return View();
-        }
+            var contactInfo = db.ContactInfos.FirstOrDefault();
 
-       [HttpPost]
+            return View(new ContactPostInfoViewModel
+            {
+                ContactInfos = contactInfo
+            });
+        }
+        [AllowAnonymous]
+        [HttpPost]
         public async Task<IActionResult> Contact(ContactPostInfoViewModel vm)
         {
             if (ModelState.IsValid)
@@ -71,8 +81,8 @@ namespace Marani.WebUI.Controllers
         }
 
 
-
         [HttpPost]
+
 
         public async Task<IActionResult> Subscribe(Subscribe model)
         {
@@ -196,6 +206,5 @@ namespace Marani.WebUI.Controllers
 
 
         }
-
     }
 }

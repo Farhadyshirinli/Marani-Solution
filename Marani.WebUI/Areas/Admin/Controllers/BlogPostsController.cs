@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Marani.Domain.Models.DataContexts;
+using Marani.Domain.Models.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Marani.Domain.Models.DataContexts;
-using Marani.Domain.Models.Entities;
-using Marani.Domain.Models.Entites;
 
 namespace Marani.WebUI.Areas.Admin.Controllers
 {

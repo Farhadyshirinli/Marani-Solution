@@ -1,5 +1,5 @@
 ﻿using Marani.Domain.AppCode.Infrastructure;
-using Marani.Domain.Models.Entites;
+using Marani.Domain.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

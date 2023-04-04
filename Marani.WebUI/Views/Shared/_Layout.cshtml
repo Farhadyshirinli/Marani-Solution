@@ -51,7 +51,94 @@
     <script src="~/assets/js/owl.carousel.min.js"></script>
     <script src="~/assets/js/jquery.nice-select.min.js"></script>
     <script src="~/assets/js/mixitup.min.js"></script>
+    <script src="~/libs/jquery-cookie/jquery.cookie.js"></script>
     <script src="~/assets/js/main.js"></script>
+
+
+    <script class="removable">
+        $(document).ready(function () {
+            $("#newsletter-subscribe").submit(function (e) {
+                e.preventDefault();
+
+                let formData = new FormData(e.currentTarget);
+
+
+                $.ajax({
+                    url: '@Url.Action("Subscribe","Home")',
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+
+                        if (response.error == false) {
+                            toastr["success"](response.message, "Uğur")
+                        }
+
+                        if (response.error == true) {
+                            toastr["error"](response.message, "Xəta");
+                        }
+
+                        e.currentTarget.reset();
+                    }
+                });
+            });
+
+
+        });
+
+
+    </script>
+    <script class="removable">
+        $(document).ready(function () {
+            $.ajaxSetup({
+                statusCode: {
+                    401: function () {
+                        $('#modalLoginForm').modal({
+                            //backdrop: 'static',
+                            keyboard: true
+                        }).modal('show');
+                    }
+                }
+            });
+
+            $("#postComment").click(function () {
+            })
+
+
+            $('#loginModal').submit(function (e) {
+                e.preventDefault();
+
+                var formData = new FormData(e.currentTarget);
+
+                $.ajax({
+                    url: '@Url.Action("Signin", "Account", values: new{area=""})',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.error == false) {
+                            $('#modalLoginForm').modal('hide');
+
+                            location.reload();
+                            toastr.success(response.message, "Uğur!");
+                        }
+                        else {
+                            toastr.error(response.message, "Xəta");
+                        }
+
+                    }
+                });
+            });
+
+
+
+        })
+    </script>
+
+    <partial name="_BasketScriptsPartial" />
+
 
     @RenderSection("addjs",required:false)
 </body>

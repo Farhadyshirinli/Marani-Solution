@@ -1,10 +1,10 @@
 ﻿using Marani.Domain.AppCode.Extensions;
+using Marani.Domain.Business.BasketModule;
 using Marani.Domain.Business.ProductModule;
 using Marani.Domain.Models.DataContexts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace Marani.WebUI.Controllers
@@ -28,11 +28,19 @@ namespace Marani.WebUI.Controllers
 
             return View(response);
         }
-        public async Task<IActionResult> ProductPage(ProductsPagedQuery query)
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(ProductSingleQuery query)
         {
-            var response = await mediator.Send(query);
 
-            return View(response);
+            var product = await mediator.Send(query);
+
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
         }
 
         //[AllowAnonymous]
@@ -106,73 +114,73 @@ namespace Marani.WebUI.Controllers
         //}
 
 
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Details(int id)
+        //{
+
+        //   var product = await db.Products
+        //        .Include(p => p.ProductImages)
+        //        .FirstOrDefaultAsync(p => p.Id == id && p.DeletedDate == null);
+
+
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(product);
+        //}
+
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int id)
+        [Route("/wishlist")]
+        public async Task<IActionResult> Wishlist(WishlistQuery query)
         {
-            
-           var product = await db.Products
-                .Include(p => p.ProductImages)
-                .FirstOrDefaultAsync(p => p.Id == id && p.DeletedDate == null);
+            var favs = await mediator.Send(query);
 
-
-            if (product == null)
+            if (Request.IsAjaxRequest())
             {
-                return NotFound();
+                return PartialView("_WishlistBody", favs);
             }
 
-            return View(product);
+            return View(favs);
         }
 
 
-        //[AllowAnonymous]
-        //[Route("/wishlist")]
-        //public async Task<IActionResult> Wishlist(WishlistQuery query)
-        //{
-        //    var favs = await mediator.Send(query);
-
-        //    if (Request.IsAjaxRequest())
-        //    {
-        //        return PartialView("_WishlistBody", favs);
-        //    }
-
-        //    return View(favs);
-        //}
 
 
 
         //#region BasketRegion
 
+        [Route("/basket")]
+        public async Task<IActionResult> Basket(ProductBasketQuery query)
+        {
+            var response = await mediator.Send(query);
 
-
-        //[Route("/basket")]
-        //public async Task<IActionResult> Basket(ProductBasketQuery query)
-        //{
-        //    var response = await mediator.Send(query);
-
-        //    return View(response);
-        //}
+            return View(response);
+        }
 
 
 
 
-        //[HttpPost]
-        //[Route("/basket")]
-        //public async Task<IActionResult> Basket(AddToBasketCommand command)
-        //{
-        //    var response = await mediator.Send(command);
+        [HttpPost]
+        [Route("/basket")]
+        public async Task<IActionResult> Basket(AddToBasketCommand command)
+        {
+            var response = await mediator.Send(command);
 
-        //    return Json(response);
-        //}
+            return Json(response);
+        }
 
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> RemoveFromBasket(RemoveFromBasketCommand command)
-        //{
-        //    var response = await mediator.Send(command);
 
-        //    return Json(response);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromBasket(RemoveFromBasketCommand command)
+        {
+            var response = await mediator.Send(command);
+
+            return Json(response);
+        }
 
 
 

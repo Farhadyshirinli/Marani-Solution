@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Marani.Domain.Business.CategoryModule;
 using Marani.Domain.Models.DataContexts;
-using Marani.Domain.Models.Entites;
+using Marani.Domain.Models.Entities;
 
 namespace Marani.WebUI.Areas.Admin.Controllers
 {
@@ -25,7 +25,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
             this.mediator = mediator;
         }
 
-        [Authorize(Policy = "admin.categories.index")]
+        //[Authorize(Policy = "admin.categories.index")]
         public async Task<IActionResult> Index(CategoryGetAllQuery query)
         {
             var response = await mediator.Send(query);
@@ -38,7 +38,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
             return View(response);
         }
 
-        [Authorize(Policy = "admin.categories.details")]
+        //[Authorize(Policy = "admin.categories.details")]
         public async Task<IActionResult> Details(CategoryGetSingleQuery query)
         {
             var response = await mediator.Send(query);
@@ -51,7 +51,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
             return View(response);
         }
 
-        [Authorize(Policy = "admin.categories.create")]
+        //[Authorize(Policy = "admin.categories.create")]
         public IActionResult Create()
         {
             ViewData["ParentId"] = new SelectList(db.Categories.ToList().Where(c => c.DeletedDate == null), "Id", "Name");
@@ -60,7 +60,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "admin.categories.create")]
+        //[Authorize(Policy = "admin.categories.create")]
         public async Task<IActionResult> Create(CategoryCreateCommand command)
         {
             if (ModelState.IsValid)
@@ -81,7 +81,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
             return View(command);
         }
 
-        [Authorize(Policy = "admin.categories.edit")]
+        //[Authorize(Policy = "admin.categories.edit")]
         public async Task<IActionResult> Edit(int? id, CategoryEditCommand command)
         {
             if (id == null)
@@ -111,7 +111,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "admin.categories.edit")]
+        //[Authorize(Policy = "admin.categories.edit")]
         public async Task<IActionResult> Edit(CategoryEditCommand command)
         {
             if (ModelState.IsValid)
@@ -137,7 +137,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "admin.categories.delete")]
+        //[Authorize(Policy = "admin.categories.delete")]
         public async Task<IActionResult> DeleteConfirmed(CategoryRemoveCommand command)
         {
             var response = await mediator.Send(command);

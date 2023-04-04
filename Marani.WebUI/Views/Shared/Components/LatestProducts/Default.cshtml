@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Default";
+}
+ @foreach (var item in Model)
+    {
+    var imagePath = item.ProductImages.FirstOrDefault()?.Name;
+<div class="col-lg-3 col-sm-6 mix all dresses bags">
+    <div class="single-product-item">
+        <figure>
+                <a asp-controller="shop" asp-action="details" asp-route-id="@item.Id"> <img src="~/uploads/images/@imagePath" alt="Product image" class="product-image"></a>
+                @if (item.CreatedDate > DateTime.Now.AddDays(-6))
+                {
+                    <div class="p-status">New</div>
+                }
+           
+        </figure>
+        <div class="product-text">
+                <h6>@item.Name</h6>
+                <p>  $@item.Price</p>
+        </div>
+    </div>
+</div>
+    }

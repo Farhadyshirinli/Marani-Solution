@@ -55,7 +55,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Type,Id,CreatedDate,DeletedDate")] ProductColor productColor)
+        public async Task<IActionResult> Create([Bind("Taste,Id,CreatedDate,DeletedDate")] ProductColor productColor)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Type,Id,CreatedDate,DeletedDate")] ProductColor productColor)
+        public async Task<IActionResult> Edit(int id, [Bind("Taste,Id,CreatedDate,DeletedDate")] ProductColor productColor)
         {
             if (id != productColor.Id)
             {

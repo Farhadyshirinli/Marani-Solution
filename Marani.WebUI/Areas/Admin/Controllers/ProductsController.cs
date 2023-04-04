@@ -1,6 +1,8 @@
 ﻿using Marani.Domain.AppCode.Extensions;
+using Marani.Domain.AppCode.Infrastructure;
 using Marani.Domain.Business.ProductModule;
 using Marani.Domain.Models.DataContexts;
+using Marani.Domain.Models.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,10 +48,10 @@ namespace Marani.WebUI.Areas.Admin.Controllers
       
         public IActionResult Create()
         {
-            ViewBag.BrandId = new SelectList(db.Brands, "Id", "Name");
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
-            ViewBag.ColorId = new SelectList(db.ProductColors, "Id", "Name");
-            ViewBag.RegionId = new SelectList(db.ProductRegions, "Id", "Name");
+            ViewBag.BrandId = new SelectList(db.Brands.Where(b => b.DeletedDate == null), "Id", "Name");
+            ViewBag.CategoryId = new SelectList(db.Categories.Where(b => b.DeletedDate == null), "Id", "Name");
+            ViewBag.TasteId = new SelectList(db.ProductColors.Where(b => b.DeletedDate == null), "Id", "Taste");
+            ViewBag.RegionId = new SelectList(db.ProductRegions.Where(b => b.DeletedDate == null), "Id", "Name");
 
             return View();
         }
@@ -57,7 +59,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "admin.products.create")]
+        //[Authorize(Policy = "admin.products.create")]
         public async Task<IActionResult> Create(ProductCreateCommand command)
         {
             if (command.Images == null)
@@ -74,10 +76,10 @@ namespace Marani.WebUI.Areas.Admin.Controllers
 
 
 
-                ViewBag.BrandId = new SelectList(db.Brands, "Id", "Name", command.BrandId);
-                ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", command.CategoryId);
-                ViewBag.ColorId = new SelectList(db.ProductColors, "Id", "Name");
-                ViewBag.RegionId = new SelectList(db.ProductRegions, "Id", "Name");
+                ViewBag.BrandId = new SelectList(db.Brands.Where(b => b.DeletedDate == null), "Id", "Name", command.BrandId);
+                ViewBag.CategoryId = new SelectList(db.Categories.Where(b => b.DeletedDate == null), "Id", "Name", command.CategoryId);
+                ViewBag.TasteId = new SelectList(db.ProductColors.Where(b => b.DeletedDate == null), "Id", "Taste");
+                ViewBag.RegionId = new SelectList(db.ProductRegions.Where(b => b.DeletedDate == null), "Id", "Name");
 
 
                 return View(command);
@@ -85,7 +87,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
             
         }
 
-        [Authorize(Policy = "admin.products.edit")]
+        //[Authorize(Policy = "admin.products.edit")]
         public async Task<IActionResult> Edit(ProductSingleQuery query ,int? id)
         {
             var product1 = await mediator.Send(query);
@@ -125,7 +127,7 @@ namespace Marani.WebUI.Areas.Admin.Controllers
    
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "admin.products.edit")]
+        //[Authorize(Policy = "admin.products.edit")]
         public async Task<IActionResult> Edit(int id,ProductEditCommand command)
         {
          
@@ -154,31 +156,26 @@ namespace Marani.WebUI.Areas.Admin.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "admin.products.delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        //[Authorize(Policy = "admin.products.delete")]
+        public async Task<IActionResult> DeleteConfirmed(ProductRemoveCommand command, ProductsPagedQuery request)
         {
-            var product = await db.Products.FirstOrDefaultAsync(p => p.Id == id && p.DeletedDate == null);
 
-            if (product == null)
-            {
-                return Json(new
-                {
-                    error = true,
-                    message = "No Information"
-                });
-            }
 
-            product.DeletedDate = DateTime.UtcNow.AddHours(4);
-            product.DeletedByUserId = User.GetCurrentUserIdNew();
-            await db.SaveChangesAsync();
+            var response = await mediator.Send(command);
 
-            var response = await mediator.Send(new ProductsPagedQuery());
+            var query = db.Products
+                .Where(p => p.DeletedDate == null)
+                   .Include(p => p.ProductImages.Where(i => i.DeletedDate == null))
+                  .Include(p => p.Brand)
+                  .Include(p => p.Category)
+                  .AsQueryable();
 
-            return PartialView("_ListBody", response);
+            var pagedDate = new PagedViewModel<Product>(query, request);
 
-           
+            return PartialView("_ListBody", pagedDate);
+
+
         }
-
 
 
         private bool ProductExists(int id)

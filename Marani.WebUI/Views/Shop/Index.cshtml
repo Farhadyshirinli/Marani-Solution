@@ -4,68 +4,19 @@
     ViewData["Title"] = "Index";
 }
 
-<!-- Header Section Begin -->
-<header class="header-section">
-    <div class="container-fluid">
-        <div class="inner-header">
-            <div class="logo">
-                <a href="./index.html"><img src="~/assets/img/products/logo.png" alt=""></a>
-            </div>
-            <div class="header-right">
-                <img src="~/assets/img/products/icons/search.png" alt="" class="search-trigger">
-                <img src="~/assets/img/products/icons/man.png" alt="">
-                <a href="#">
-                    <img src="~/assets/img/products/icons/bag.png" alt="">
-                    <span>2</span>
-                </a>
-            </div>
-            <div class="user-access">
-                <a href="#">Register</a>
-                <a href="#" class="in">Sign in</a>
-            </div>
 
-            <partial name="_MainMenu" />
+<partial name="_MainMenu" />
 
-        </div>
-    </div>
-</header>
-<!-- Header Info Begin -->
-<div class="header-info">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="header-item">
-                    <img src="img/icons/delivery.png" alt="">
-                    <p>Free shipping on orders over $30 in USA</p>
-                </div>
-            </div>
-            <div class="col-md-4 text-left text-lg-center">
-                <div class="header-item">
-                    <img src="img/icons/voucher.png" alt="">
-                    <p>20% Student Discount</p>
-                </div>
-            </div>
-            <div class="col-md-4 text-left text-xl-right">
-                <div class="header-item">
-                    <img src="img/icons/sales.png" alt="">
-                    <p>30% off on dresses. Use code: 30OFF</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Header Info End -->
-<!-- Header End -->
 <!-- Page Add Section Begin -->
 <section class="page-add">
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
                 <div class="page-breadcrumb">
-                    <h2>Dresses<span>.</span></h2>
-                    <a href="#">Home</a>
-                    <a href="#">Dresses</a>
-                    <a class="active" href="#">Night Dresses</a>
+                    <h2>Products</h2>
+                    <a asp-controller="home" asp-action="index">Home</a>
+                    <a asp-controller="Shop" asp-action="Wishlist">Wishlist</a>
+                    <a asp-controller="Shop" asp-action="Basket">Basket</a>
                 </div>
             </div>
             <div class="col-lg-8">
@@ -84,89 +35,53 @@
                     <div class="section-title">
                         <h2>Latest Products</h2>
                     </div>
-                    <ul class="product-controls">
-                        <li data-filter="*">All</li>
-                        <li data-filter=".dresses">Dresses</li>
-                        <li data-filter=".bags">Bags</li>
-                        <li data-filter=".shoes">Shoes</li>
-                        <li data-filter=".accesories">Accesories</li>
-                    </ul>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row" id="product-list">
+        <div class="row" id="product-list">
 
-        @foreach (var item in Model.Items)
-        {
-            var imagePath = item.ProductImages.FirstOrDefault().Name;
+            @foreach (var item in Model.Items)
+            {
+                var imagePath = item.ProductImages.FirstOrDefault()?.Name;
+                var notMain = item.ProductImages.FirstOrDefault(i => i.IsMain != true)?.Name;
 
-            <div class="col-lg-3 col-sm-6 mix all bags">
-                <div class="single-product-item">
-                    <figure>
-                        <a asp-controller="shop" asp-action="details" asp-route-id="@item.Id"><img src="~/uploads/images/@imagePath" alt=""></a>
-                        @if (item.CreatedDate > DateTime.Now.AddDays(-7))
-                        {
-                            <div class="p-status">new</div>
-                        }
-                    </figure>
-                    <div class="product-text">
-                        <h6>@item.Name</h6>
-                        <p>@item.Price $</p>
-                    </div>
-                    <div class="iconbox">
-                        <i class="fa fa-heart"></i>
-                        <i class="fa fa-bag-shopping"></i>
+                <div class="col-lg-3 col-sm-6 mix all bags">
+                    <div class="single-product-item">
+                        <figure>
+                            <a asp-action="details" asp-route-id="@item.Id">
+                                <img src="~/uploads/images/@imagePath" alt="">
+                            </a>
+
+                            @if (item.CreatedDate > DateTime.Now.AddDays(-6))
+                            {
+                                <div class="p-status">new</div>
+                            }
+                        </figure>
+                        <div class="product-text">
+                            <h6>@item.Name</h6>
+                            <p>@item.Price $</p>
+                            <a href="javascript:addToFavorites(@item.Id)">
+                                <img style="height:30px;" src="~/assets/img/icons/favs-star.png" alt="" class="wish-icon">
+                            </a>
+                            <a data-product-id="@item.Id" onclick="addToBasket(event)">
+                                <img style="height:30px; cursor:pointer;" src="~/assets/img/icons/addtobasket.png" alt="" class="wish-icon">
+                            </a>
+
+                        </div>
+
                     </div>
                 </div>
-            </div>
-        }
-
-
+            }
+        </div>
     </div>
+
 </section>
 <!-- Categories Page Section End -->
 <!-- Footer Section Begin -->
-<footer class="footer-section spad">
-    <div class="container">
-        <div class="newslatter-form">
-            <div class="row">
-                <div class="col-lg-12">
-                    <form action="#">
-                        <input type="text" placeholder="Your email address">
-                        <button type="submit">Subscribe to our newsletter</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <partial name="_FooterWidget" />
-
-    </div>
-    <div class="social-links-warp">
-        <div class="container">
-            <div class="social-links">
-                <a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
-                <a href="" class="pinterest"><i class="fa fa-pinterest"></i><span>pinterest</span></a>
-                <a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
-                <a href="" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
-                <a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>
-                <a href="" class="tumblr"><i class="fa fa-tumblr-square"></i><span>tumblr</span></a>
-            </div>
-        </div>
-
-        <div class="container text-center pt-5">
-            <p>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-        </div>
-
-
-    </div>
-</footer>
+<partial name="_FooterWidget" />
 <!-- Footer Section End -->
 @section addcss{
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <style>
         .iconbox {
             display: flex;
@@ -176,5 +91,115 @@
             font-size: 20px;
             cursor: pointer;
         }
+
+        .wish-icon {
+            transition: .7s;
+        }
+
+            .wish-icon:hover {
+                transform: scale(1.4);
+                transition: .7s;
+            }
     </style>
 }
+
+    @section addjs{
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+
+
+        function addToFavorites(productId) {
+            const favorites = ($.cookie('favorites') || '').split(',').filter(item => item.length > 0);
+
+            if (favorites.filter(item => item == productId).length == 0) {
+                favorites.push(productId);
+
+                $.cookie('favorites', favorites.toString(), { path: '/' });
+            }
+
+            let isInArray = true;
+
+            $.each(favorites, function (index, value) {
+                if (value === productId) {
+                    isInArray = true;
+                } else {
+                    isInArray = false;
+                }
+            });
+
+            if (isInArray) {
+                toastr.success("Added to favorites");
+            } else {
+                toastr.success("Product is already in your favorites");
+            }
+
+            console.log($.cookie('favorites'))
+
+
+
+        }
+
+
+        function addToBasket(e) {
+            e.preventDefault();
+
+            const elementData = $(e.currentTarget).data();
+
+            $.ajax({
+                url: `@Url.Action("Basket","Shop")`,
+                type: 'POST',
+                data: elementData,
+                contentType: 'application/x-www-form-urlencoded',
+                success: function (response) {
+                    if (response.error == false) {
+                        //$(e.target).closest('div.card').remove();
+
+
+
+                        //var newBasketProduct = `<ul class='list d-flex single-cart-box basket-item-${response.value.product.productId}' >
+                        //        <li class='list__img'>
+                        //                <a class='list__img__link d-block' asp-controller='shop' asp-action='details' asp-route-id='${response.value.product.productId}'>
+                        //                     <img src='/uploads/images/${response.value.product.product.productImages[0].name}' alt='img'>
+                        //            </a>
+                        //        </li>
+                        //        <li class='item-info'>
+                        //            <ul class='d-flex'>
+                        //                <li>
+                        //                    <h6 class='single-product-name'>
+                        //                               <a asp-controller='shop' asp-action='details' asp-route-id='${response.value.product.productId}'>${response.value.product.product.name}</a>
+                        //                    </h6>
+                        //                                        <span>${response.value.product.quantity} x ${response.value.product.product.price}₼</span>
+                        //                </li>
+                        //                <li class='s-remove'>
+                        //                    <a
+                        //                        class='d-inline-block del-icon'
+                        //                                         aria-remove-target='.basket-item-${response.value.product.productId}'
+                        //                                         data-product-id='${response.value.product.productId}'
+                        //                           onclick='removeFromBasket(this,"${response.value.product.product.name}");return;'>
+
+                        //                        <i class='far fa-trash-alt'></i>
+                        //                    </a>
+                        //                </li>
+                        //            </ul>
+                        //        </li>
+                        //    </ul>`;
+
+                        //$(".shop-cart-content").append(newBasketProduct);
+
+                        console.log(response)
+
+                        toastr.success(response.message, 'Success');
+                        return;
+
+                    }
+                    console.log(response)
+
+                    toastr.info(response.message, 'Info');
+                },
+                error: function (response, status, xhr) {
+                    console.log(response, status, xhr);
+                }
+            });
+        }
+    </script>
+                }

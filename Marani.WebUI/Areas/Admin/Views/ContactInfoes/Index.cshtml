@@ -1,0 +1,92 @@
+﻿@model IEnumerable<ContactInfo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if (User.HasAccess("admin.contactinfoes.create"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+             <th>
+                @Html.DisplayNameFor(model => model.ImagePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeletedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td class="image-cell">
+                    @if (!string.IsNullOrWhiteSpace(item.ImagePath))
+                    {
+                        <img src="~/uploads/images/@item.ImagePath" />
+                    }
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeletedDate)
+            </td>
+            <td>
+                    @if (User.HasAccess("admin.contactinfoes.edit"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    }
+                    @if (User.HasAccess("admin.contactinfoes.details"))
+                    {
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    }
+                    @if (User.HasAccess("admin.contactinfoes.delete"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section addcss{
+    <style>
+        .image-cell {
+            min-width: 100px;
+            max-width: 120px;
+        }
+
+            .image-cell img {
+                width: 100%;
+            }
+    </style>
+}

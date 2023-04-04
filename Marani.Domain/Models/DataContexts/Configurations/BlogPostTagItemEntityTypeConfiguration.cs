@@ -1,4 +1,4 @@
-﻿using Marani.Domain.Models.Entites;
+﻿using Marani.Domain.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

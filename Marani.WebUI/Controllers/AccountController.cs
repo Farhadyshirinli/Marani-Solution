@@ -155,7 +155,7 @@ namespace Marani.WebUI.Controllers
 					var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
 					string path = $"{Request.Scheme}://{Request.Host}/registration-confirm.html?email={user.Email}&token={token}";
 
-					var emailResponse = await emailService.SendEmailAsync(user.Email, "Registration for Marani e-commerce Perfume website", $"Zəhmət olmasa abunəliyinizi <a href='{path}'>link</a> vasitəsilə təsdiq edin");
+					var emailResponse = await emailService.SendEmailAsync(user.Email, "Registration for Marani e-commerce  website", $"Zəhmət olmasa abunəliyinizi <a href='{path}'>link</a> vasitəsilə təsdiq edin");
 
 					if (emailResponse)
 					{

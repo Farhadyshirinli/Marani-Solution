@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Marani.WebUI.Migrations
+namespace Marani.Domain.Migrations
 {
     [DbContext(typeof(MaraniDbContext))]
     partial class MaraniDbContextModelSnapshot : ModelSnapshot
@@ -19,60 +19,22 @@ namespace Marani.WebUI.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Marani.Domain.Models.Entites.BlogPostTagItem", b =>
+            modelBuilder.Entity("Marani.Domain.Models.Entities.Basket", b =>
                 {
-                    b.Property<int>("BlogPostId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TagId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedByUserId")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
+                    b.HasKey("UserId", "ProductId");
 
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.HasIndex("ProductId");
 
-                    b.HasKey("BlogPostId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("BlogPostTagCloud");
-                });
-
-            modelBuilder.Entity("Marani.Domain.Models.Entites.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedByUserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
+                    b.ToTable("Basket");
                 });
 
             modelBuilder.Entity("Marani.Domain.Models.Entities.BlogPost", b =>
@@ -156,6 +118,37 @@ namespace Marani.WebUI.Migrations
                     b.ToTable("BlogPostComments");
                 });
 
+            modelBuilder.Entity("Marani.Domain.Models.Entities.BlogPostTagItem", b =>
+                {
+                    b.Property<int>("BlogPostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("BlogPostId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("BlogPostTagCloud");
+                });
+
             modelBuilder.Entity("Marani.Domain.Models.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -209,6 +202,42 @@ namespace Marani.WebUI.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Marani.Domain.Models.Entities.ContactInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CompanyEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Slug")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContactInfos");
+                });
+
             modelBuilder.Entity("Marani.Domain.Models.Entities.ContactPost", b =>
                 {
                     b.Property<int>("Id")
@@ -236,6 +265,9 @@ namespace Marani.WebUI.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailAnswer")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Message")
@@ -604,10 +636,7 @@ namespace Marani.WebUI.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
+                    b.Property<string>("Taste")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -722,6 +751,36 @@ namespace Marani.WebUI.Migrations
                     b.ToTable("ProductTypes");
                 });
 
+            modelBuilder.Entity("Marani.Domain.Models.Entities.PromoInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Delivery")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Promo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PromoInfos");
+                });
+
             modelBuilder.Entity("Marani.Domain.Models.Entities.Subscribe", b =>
                 {
                     b.Property<int>("Id")
@@ -753,23 +812,48 @@ namespace Marani.WebUI.Migrations
                     b.ToTable("Subscribes");
                 });
 
-            modelBuilder.Entity("Marani.Domain.Models.Entites.BlogPostTagItem", b =>
+            modelBuilder.Entity("Marani.Domain.Models.Entities.Tag", b =>
                 {
-                    b.HasOne("Marani.Domain.Models.Entities.BlogPost", "BlogPost")
-                        .WithMany("TagCloud")
-                        .HasForeignKey("BlogPostId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("Marani.Domain.Models.Entities.Basket", b =>
+                {
+                    b.HasOne("Marani.Domain.Models.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Marani.Domain.Models.Entites.Tag", "Tag")
-                        .WithMany("TagCloud")
-                        .HasForeignKey("TagId")
+                    b.HasOne("Marani.Domain.Models.Entities.Membership.MaraniUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BlogPost");
+                    b.Navigation("Product");
 
-                    b.Navigation("Tag");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Marani.Domain.Models.Entities.BlogPost", b =>
@@ -796,6 +880,25 @@ namespace Marani.WebUI.Migrations
                     b.Navigation("BlogPost");
 
                     b.Navigation("Parnet");
+                });
+
+            modelBuilder.Entity("Marani.Domain.Models.Entities.BlogPostTagItem", b =>
+                {
+                    b.HasOne("Marani.Domain.Models.Entities.BlogPost", "BlogPost")
+                        .WithMany("TagCloud")
+                        .HasForeignKey("BlogPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Marani.Domain.Models.Entities.Tag", "Tag")
+                        .WithMany("TagCloud")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BlogPost");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Marani.Domain.Models.Entities.Category", b =>
@@ -923,11 +1026,6 @@ namespace Marani.WebUI.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Marani.Domain.Models.Entites.Tag", b =>
-                {
-                    b.Navigation("TagCloud");
-                });
-
             modelBuilder.Entity("Marani.Domain.Models.Entities.BlogPost", b =>
                 {
                     b.Navigation("Comments");
@@ -975,6 +1073,11 @@ namespace Marani.WebUI.Migrations
             modelBuilder.Entity("Marani.Domain.Models.Entities.ProductType", b =>
                 {
                     b.Navigation("ProductCatalog");
+                });
+
+            modelBuilder.Entity("Marani.Domain.Models.Entities.Tag", b =>
+                {
+                    b.Navigation("TagCloud");
                 });
 #pragma warning restore 612, 618
         }

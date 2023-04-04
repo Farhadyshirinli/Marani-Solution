@@ -5,17 +5,13 @@
 }
 
 
-<!-- Page-header start -->
+
 <div class="page-header">
     <div class="row align-items-end">
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h4>Bootstrap Basic Tables</h4>
-                    <span>
-                        lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit
-                    </span>
+                    <h4>Colors</h4>
                 </div>
             </div>
         </div>
@@ -23,156 +19,188 @@
             <div class="page-header-breadcrumb">
                 <ul class="breadcrumb-title">
                     <li class="breadcrumb-item" style="float: left;">
-                        <a asp-controller="Dashboard" asp-action="index">
-                            <i class="feather icon-home"></i>
-                        </a>
+                        <a asp-controller="Dashboard" asp-action="index"> <i class="feather icon-home"></i> </a>
                     </li>
                     <li class="breadcrumb-item" style="float: left;">
-                        <span>ProductColors</span>
-
+                        <span>All Colors</span>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
-<!-- Page-header end -->
-<!-- Page-body start -->
 <div class="page-body">
-    <!-- Basic table card start -->
     <div class="card">
-        <div class="card-header">
-            <h5>Basic Table</h5>
-            <span>use class <code>table</code> inside table element</span>
-
-        </div>
         <div class="card-block table-border-style">
             <div class="table-responsive">
+                <table class="table table-framed tree">
 
-                <table class="table">
                     <thead>
                         <tr>
+                         
                             <th>
-                                @Html.DisplayNameFor(model => model.Name)
+                                @Html.DisplayNameFor(model => model.Taste)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Type)
-                            </th>
+                           @* <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model.CreatedDate)
                             </th>
-
                             <th class="operations">
-                                <a asp-action="Create" class="btn btn-sm btn-primary">
-                                    <i class="fa fa-pen-to-square"></i>
-                                </a>
+                                @if (User.HasAccess("admin.productcolors.create"))
+                                {
+                                    <a asp-action="Create" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-pen-to-square"></i>
+                                    </a>
+                                }
                             </th>
+
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
+                            
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
+                                    @Html.DisplayFor(modelItem => item.Taste)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Type)
-                                </td>
+                               @* <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CreatedDate)
                                 </td>
                                 <td class="operations">
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    <a asp-action="Details" asp-route-id="@item.Id" asp-route-id="@item.Id" class="btn btn-sm btn-info">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-danger" onclick="removeEntity(@item.Id,'@item.Name')">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
+
+                                    @if (User.HasAccess("admin.productcolors.edit"))
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                    }
+
+
+                                    @if (User.HasAccess("admin.productcolors.details"))
+                                    {
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    }
+
+
+                                    @if (User.HasAccess("admin.productcolors.delete"))
+                                    {
+                                        <a class="btn btn-sm btn-danger" onclick="removeEntity(@item.Id, '@item.Taste')">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    }
+
                                 </td>
                             </tr>
                         }
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <!-- Basic table card end -->
+    <!-- Horizontal-border table end -->
     @Html.AntiForgeryToken()
 </div>
-<!-- Page-body end -->
+
+
 @section addcss{
-    <link rel="stylesheet" href="~/libs/toastr.js/toastr.min.css" />
+<link rel="stylesheet" href="~/libs/toastr.js/toastr.min.css" />
+<link rel="stylesheet" href="~/libs/jquery-treegrid/css/jquery.treegrid.css" />
 
+<style>
+    th.operations,
+    td.operations {
+        max-width: 148px;
+        width: 148px;
+        text-align: right;
+        color: #ffffff;
+    }
 
-    <style>
-        th.operations,
-        th.operations {
-            max-width: 148px;
-            width: 148px;
-            text-align: right;
-            color: #ffffff;
+        th.operations i,
+        td.operations i {
+            margin: 0;
         }
 
-            th.operations i,
-            th.operations i {
-                margin: 0
-            }
-    </style>
+        .color-viewer-container{
+            display: flex;
+            align-items:center;
+        }
 
+        .color-viewer{
+            display:inline-block;
+            border: 1px solid #dee2e6;
+            width: 30px;
+            height: 30px;
+            margin-right:10px;
+        }
+</style>
 }
 
-    @section addjs{
-    <script src="~/libs/sweetalert/sweetalert.min.js"></script>
-    <script src="~/libs/toastr.js/toastr.min.js"></script>
-    <script src="~/libs/toastr.js/toastr.customize.js"></script>
+@section addjs{
+<script src="~/libs/sweetalert/sweetalert.min.js"></script>
+<script src="~/libs/toastr.js/toastr.min.js"></script>
+<script src="~/libs/toastr.js/toastr.customize.js"></script>
+<script src="~/libs/jquery-treegrid/js/jquery.treegrid.js"></script>
 
+@*<script type="text/javascript">
+    $('.tree').treegrid();
+</script>
+*@
 
-    <script class="removeable">
-        function removeEntity(id, name) {
-            swal(`Are you sure to delete '${name}'`, {
-                title: "Attention!",
-                text: `Are you sure to delete '${name}'`,
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-                buttons: ["No", "Yes"],
-            })
-                .then((value) => {
-                    if (value == true) {
-                        let vToken = $('[name=__RequestVerificationToken]').val();
+@if (User.HasAccess("admin.productcolors.remove")){
+<script class="removable">
+    function removeEntity(id, name){
+        swal(`Əminsiniz ki, '${name}' silinsin?`, {
+              title: "Diqqət!",
+              text: `Əminsiniz ki, '${name}' silinsin?`,
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+              buttons: ["Xeyr", "Bəli"]
+        })
+        .then((value) => {
 
-                        let formData = new FormData();
+            if(value == true){
 
-                        formData.set('__RequestVerificationToken', vToken);
-                        formData.set('id', id);
+                let vToken = $("[name=__RequestVerificationToken]").val();
 
+                let formData = new FormData();
 
-                        $.ajax({
-                            url: `@Url.Action("Delete")`,
-                            type: 'POST',
-                            data: formData,
-                            contentType: false,
-                            processData: false,
-                            success: function (response) {
-                                console.log(response);
+                formData.set("__RequestVerificationToken", vToken);
+                formData.set("id", id);
 
-                                if (response.error == true) {
-                                    toastr.error(response.message, 'Error');
-                                    return;
-                                }
+                $.ajax({
+                    url: `@Url.Action("Delete")`,
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        console.log(response);
 
-                                location.reload();
-                            },
-                            error: function (errorResponse) {
-                                console.error(errorResponse);
-                            }
-                        });
+                        if(response.error == true){
+                            toastr.error(response.message, "Xeta!");
+                            return;
+                        }
+
+                        location.reload();
+                    },
+                    error: function(errorResponse){
+                        console.error(errorResponse);
                     }
                 });
-        }
-    </script>
+            }
+        });
+    }
+</script>
+}
+
 }

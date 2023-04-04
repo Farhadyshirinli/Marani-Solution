@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Marani.Domain.Models.Entites
+namespace Marani.Domain.Models.Entities
 {
     public class Tag : BaseEntity
     {
